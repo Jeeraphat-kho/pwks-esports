@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การแข่งขัน Esports | โรงเรียนพร้าววิทยาคม</title>
+
+    <!-- Google Fonts: Kanit, Chakra Petch & Orbitron เสริมความเท่แบบ Esports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Kanit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+    <!-- Canvas แสดงละอองแสง Particle ขยับได้ -->
+    <canvas id="particleCanvas"></canvas>
+    
+    <!-- Cyber Grid Overlay & แสงนีออนพื้นหลัง -->
+    <div class="bg-grid"></div>
+    <div class="glow-orb-left"></div>
+    <div class="glow-orb-right"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="school-badge">
+                โรงเรียนพร้าววิทยาคม
+            </div>
+
+            <h1>การแข่งขัน Esports</h1>
+
+            <p class="subtitle">
+                เลือกการแข่งขันที่ต้องการเข้าร่วม
+            </p>
+        </header>
+
+        <main class="games">
+
+            <!-- RoV Card -->
+            <a href="#" class="game-card rov" style="filter: grayscale(1);">
+                <!-- รูปภาพ (มี fallback เป็น URL ในเน็ตให้ถ้าไม่มีไฟล์ในเครื่อง) -->
+                <img
+                    class="game-image"
+                    src="bg/rov.png"
+                    alt="RoV Arena of Valor"
+                    onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80'"
+                >
+
+                <div class="overlay"></div>
+
+                <div class="game-content">
+                    <span class="tag">
+                        <i class="fa-solid fa-shield-halved"></i> MOBA • 5V5
+                    </span>
+
+                    <div class="game-name">
+                        RoV
+                    </div>
+
+                    <p class="game-description">
+                        <strong>Arena of Valor</strong><br>
+                        การแข่งขันเกม MOBA สุดมันส์ ชิงความเป็นหนึ่ง
+                    </p>
+
+                    <div class="enter">
+                        สมัครการแข่งขัน
+                        <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Free Fire Card -->
+            <a href="freefire/" class="game-card freefire">
+                <!-- รูปภาพ (มี fallback เป็น URL ในเน็ตให้ถ้าไม่มีไฟล์ในเครื่อง) -->
+                <img
+                    class="game-image"
+                    src="bg/freefire.webp"
+                    alt="Garena Free Fire"
+                    onerror="this.src='https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=1200&q=80'"
+                >
+
+                <div class="overlay"></div>
+
+                <div class="game-content">
+                    <span class="tag">
+                        <i class="fa-solid fa-crosshairs"></i> BATTLE ROYALE
+                    </span>
+
+                    <div class="game-name">
+                        FREE FIRE
+                    </div>
+
+                    <p class="game-description">
+                        <strong>Garena Free Fire</strong><br>
+                        การแข่งขันเอาตัวรอดแห่งสมรภูมิ คว้าชัยชนะ Booyah!
+                    </p>
+
+                    <div class="enter">
+                        สมัครการแข่งขัน
+                        <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+
+        </main>
+
+        <footer>
+            © 2026 สภานักเรียนโรงเรียนพร้าววิทยาคม • SCPWKS Technology Team
+        </footer>
+
+    </div>
+
+    <!-- Script ควบคุม Background Particles และ 3D Tilt เอียงการ์ดตามเมาส์ -->
+    <script>
+        // --- 1. Background Particle System (ละอองอนุภาคสีฟ้า-ส้มลอยขึ้น) ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2.2 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = -(Math.random() * 1.0 + 0.3); // ลอยขึ้นด้านบน
+                
+                // ฝั่งซ้ายเป็นอนุภาคนีออนฟ้า (RoV) ฝั่งขวาเป็นอนุภาคเปลวไฟส้ม (Free Fire)
+                const isLeft = this.x < width / 2;
+                this.color = isLeft 
+                    ? `rgba(0, 240, 255, ${Math.random() * 0.6 + 0.2})` 
+                    : `rgba(255, 95, 21, ${Math.random() * 0.6 + 0.2})`;
+                this.alpha = Math.random() * 0.7 + 0.3;
+                this.decay = Math.random() * 0.005 + 0.002;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= this.decay;
+
+                if (this.alpha <= 0 || this.y < -10 || this.x < -10 || this.x > width + 10) {
+                    this.reset();
+                    this.y = height + 10;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const particleCount = Math.min(Math.floor(window.innerWidth / 18), 75);
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // --- 2. 3D Tilt Effect (การ์ดเอียงตามเคอร์เซอร์เมาส์อย่างนุ่มนวล) ---
+        const cards = document.querySelectorAll('.game-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const rotateX = (-y / rect.height) * 12;
+                const rotateY = (x / rect.width) * 12;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>

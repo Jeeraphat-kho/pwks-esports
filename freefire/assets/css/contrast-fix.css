@@ -1,0 +1,235 @@
+/**
+ * FREE FIRE ESPORTS - High Contrast & Dark Theme Clarity Fixes
+ * Solves dim/muddy text on dark backgrounds across both User and Admin portals
+ */
+
+:root {
+    --text-primary-bright: #ffffff;
+    --text-secondary-bright: #cbd5e1;
+    --text-muted-bright: #94a3b8;
+    --text-dim-readable: #64748b;
+}
+
+/* ==========================================================================
+   1. Typography & Text Color Overrides for High Contrast
+   ========================================================================== */
+body {
+    color: #f1f5f9;
+}
+
+/* Override text-muted and text-secondary */
+.text-muted,
+[data-bs-theme="dark"] .text-muted,
+.text-secondary {
+    color: #94a3b8 !important;
+}
+
+/* Heading elements inside muted containers should be bright and distinct */
+.text-muted h1, .text-muted h2, .text-muted h3, 
+.text-muted h4, .text-muted h5, .text-muted h6,
+.text-secondary h1, .text-secondary h2, .text-secondary h3,
+.text-secondary h4, .text-secondary h5, .text-secondary h6 {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Sub-paragraphs inside muted containers */
+.text-muted p,
+.text-secondary p {
+    color: #cbd5e1 !important;
+}
+
+/* Icons inside text-muted or empty states */
+.text-muted i,
+.text-secondary i {
+    color: #cbd5e1;
+}
+
+/* Small text enhancement */
+small, .small {
+    color: #94a3b8;
+    font-size: 0.875rem;
+}
+
+.text-white small,
+.text-white .small,
+.table-esports small {
+    color: #94a3b8 !important;
+}
+
+/* ==========================================================================
+   2. Empty State (No Data Found) Enhanced Styling
+   ========================================================================== */
+.empty-state-box {
+    padding: 48px 24px;
+    text-align: center;
+    background: rgba(10, 16, 32, 0.6);
+    border: 1px dashed rgba(255, 85, 0, 0.35);
+    border-radius: 14px;
+    margin: 10px 0;
+}
+
+.empty-state-box .empty-icon {
+    font-size: 52px;
+    color: #ff5500;
+    margin-bottom: 16px;
+    display: inline-block;
+    filter: drop-shadow(0 0 10px rgba(255, 85, 0, 0.3));
+}
+
+.empty-state-box h5,
+.empty-state-box h4 {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-family: var(--font-chakra, 'Chakra Petch', sans-serif);
+    margin-bottom: 8px;
+}
+
+.empty-state-box p {
+    color: #cbd5e1 !important;
+    font-size: 14.5px;
+    margin-bottom: 0;
+}
+
+/* Fallback for standard text-center py-5 text-muted in tables */
+.admin-table-wrapper .text-center.py-5.text-muted,
+.admin-table-wrapper .text-center.text-muted {
+    background: rgba(8, 14, 28, 0.6);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    padding: 40px 20px !important;
+}
+
+.admin-table-wrapper .text-center.py-5.text-muted i,
+.admin-table-wrapper .text-center.text-muted i {
+    color: #ff5500 !important;
+    font-size: 46px !important;
+    opacity: 0.9;
+}
+
+.admin-table-wrapper .text-center.py-5.text-muted h5,
+.admin-table-wrapper .text-center.text-muted h5 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    font-family: var(--font-chakra, 'Chakra Petch', sans-serif);
+}
+
+.admin-table-wrapper .text-center.py-5.text-muted p,
+.admin-table-wrapper .text-center.text-muted p {
+    color: #cbd5e1 !important;
+    font-size: 14px !important;
+}
+
+/* ==========================================================================
+   3. Form Inputs, Labels & Placeholders
+   ========================================================================== */
+.form-label, 
+label {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.form-label .text-danger {
+    color: #ff4444 !important;
+}
+
+.form-control, 
+.form-select {
+    background-color: #090e20 !important;
+    border: 1px solid #334155 !important;
+    color: #ffffff !important;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    background-color: #0b1226 !important;
+    border-color: #ff5500 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 85, 0, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.form-control::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+.input-group-text {
+    background-color: #090e20 !important;
+    border-color: #334155 !important;
+    color: #94a3b8 !important;
+}
+
+/* ==========================================================================
+   4. Tables & Table Rows
+   ========================================================================== */
+.table-esports {
+    color: #e2e8f0 !important;
+}
+
+.table-esports th {
+    color: #ffffff !important;
+    background: rgba(8, 14, 30, 0.95) !important;
+}
+
+.table-esports td {
+    color: #f1f5f9 !important;
+}
+
+.table-esports td .text-secondary,
+.table-esports td .text-muted {
+    color: #94a3b8 !important;
+}
+
+.player-tag-pill {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #f8fafc !important;
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+.player-tag-pill.text-secondary {
+    color: #cbd5e1 !important;
+    background: rgba(100, 116, 139, 0.2) !important;
+    border-color: rgba(148, 163, 184, 0.3) !important;
+}
+
+.player-tag-pill.text-warning {
+    color: #ffc107 !important;
+    background: rgba(255, 193, 7, 0.12) !important;
+    border-color: rgba(255, 193, 7, 0.35) !important;
+}
+
+/* ==========================================================================
+   5. Card Subtitles, Helper Notes & Modals
+   ========================================================================== */
+.metric-label {
+    color: #cbd5e1 !important;
+    font-size: 14.5px !important;
+    font-weight: 500;
+}
+
+.admin-nav-link {
+    color: #cbd5e1 !important;
+}
+
+.esports-modal .modal-body p {
+    color: #e2e8f0;
+}
+
+.esports-modal .text-secondary {
+    color: #cbd5e1 !important;
+}
+
+/* Fancybox 5 High Priority Layering */
+.fancybox__container {
+    z-index: 99999 !important;
+}
+
+.fancybox__backdrop {
+    background: rgba(2, 5, 15, 0.94) !important;
+    backdrop-filter: blur(10px) !important;
+}

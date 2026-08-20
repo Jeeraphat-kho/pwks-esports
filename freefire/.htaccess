@@ -1,0 +1,12 @@
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect legacy .html visits to .php
+    RewriteRule ^index\.html$ index.php [R=301,L]
+    RewriteRule ^register\.html$ register.php [R=301,L]
+    RewriteRule ^rules\.html$ rules.php [R=301,L]
+    RewriteRule ^bracket\.html$ bracket.php [R=301,L]
+    RewriteRule ^admin/login\.html$ admin/login.php [R=301,L]
+</IfModule>

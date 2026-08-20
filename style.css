@@ -1,0 +1,477 @@
+    <style>
+        :root {
+            --rov-cyan: #00f0ff;
+            --rov-blue: #0066ff;
+            --rov-glow: rgba(0, 240, 255, 0.4);
+            --ff-orange: #ff5500;
+            --ff-red: #ff1844;
+            --ff-glow: rgba(255, 85, 0, 0.45);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            min-height: 100vh;
+            color: white;
+            background-color: #040714;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 1. Dynamic Canvas Background Particles */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 2. Cyber Grid & Animated Scanline */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.22;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 55px 55px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        }
+
+        /* 3. Ambient Glowing Orbs (ขยับและหายใจได้) */
+        .glow-orb-left {
+            position: fixed;
+            top: 15%;
+            left: -120px;
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.16) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: 1;
+            pointer-events: none;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+
+        .glow-orb-right {
+            position: fixed;
+            bottom: 10%;
+            right: -120px;
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 85, 0, 0.16) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: 1;
+            pointer-events: none;
+            animation: floatGlow 8s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0) scale(1); opacity: 0.6; }
+            100% { transform: translateY(40px) scale(1.15); opacity: 1; }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: min(1200px, 92%);
+            margin: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .school-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            font-size: 15px;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-family: 'Chakra Petch', sans-serif;
+            font-weight: 600;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 6px 18px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+        }
+
+        h1 {
+            font-size: clamp(34px, 5.5vw, 62px);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: linear-gradient(
+                90deg,
+                #ffffff 0%,
+                #60a5fa 30%,
+                #b300ff 60%,
+                #a78bfa 85%,
+                #ffffff 100%
+            );
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8));
+        }
+
+        @keyframes shine {
+            to { background-position: 250% center; }
+        }
+
+        .subtitle {
+            margin-top: 12px;
+            color: #94a3b8;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* 3D Perspective Card Layout */
+        .games {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            perspective: 1200px;
+        }
+
+        /* Game Card Base */
+        .game-card {
+            position: relative;
+            height: 450px;
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            background: rgba(14, 20, 36, 0.8);
+            border: 2px solid rgba(255,255,255,.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            transition: 
+                transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        /* Shimmer Holographic Light Effect on Card */
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.12),
+                transparent
+            );
+            transform: skewX(-20deg);
+            transition: left 0.75s ease;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .game-card:hover::before {
+            left: 140%;
+        }
+
+        /* RoV Custom Glow */
+        .rov:hover {
+            border-color: var(--rov-cyan);
+            box-shadow: 
+                0 30px 70px rgba(0, 0, 0, 0.8),
+                0 0 40px var(--rov-glow),
+                0 0 15px rgba(0, 102, 255, 0.5);
+        }
+
+        /* Free Fire Custom Glow */
+        .freefire:hover {
+            border-color: var(--ff-orange);
+            box-shadow: 
+                0 30px 70px rgba(0, 0, 0, 0.8),
+                0 0 40px var(--ff-glow),
+                0 0 15px rgba(255, 24, 68, 0.5);
+        }
+
+        /* Game Image */
+        .game-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 25%;
+            filter: brightness(0.88) contrast(1.1);
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.5s ease;
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.08);
+            filter: brightness(1.02) contrast(1.15);
+        }
+
+        /* Dark High-Tech Gradient Overlay */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(3, 7, 18, 0.98) 0%,
+                rgba(3, 7, 18, 0.78) 40%,
+                rgba(3, 7, 18, 0.25) 75%,
+                rgba(3, 7, 18, 0.1) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Content inside Card */
+        .game-content {
+            position: absolute;
+            z-index: 2;
+            left: 32px;
+            right: 32px;
+            bottom: 30px;
+            transform: translateZ(30px); /* 3D pop effect */
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-family: 'Chakra Petch', sans-serif;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .rov .tag {
+            color: var(--rov-cyan);
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+        }
+
+        .freefire .tag {
+            color: #ff9800;
+            border-color: rgba(255, 152, 0, 0.4);
+            box-shadow: 0 0 12px rgba(255, 152, 0, 0.2);
+        }
+
+        /* Game Name */
+        .game-name {
+            font-family: 'Orbitron', 'Kanit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+        }
+
+        .rov .game-name {
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .freefire .game-name {
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 85, 0, 0.4);
+        }
+
+        .game-description {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            font-weight: 300;
+        }
+
+        .game-description strong {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        /* Enter Button (Esports Style) */
+        .enter {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'Chakra Petch', 'Kanit', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .rov .enter {
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .rov:hover .enter {
+            background: linear-gradient(135deg, var(--rov-cyan), var(--rov-blue));
+            color: #ffffff;
+            border-color: var(--rov-cyan);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+        }
+
+        .freefire .enter {
+            border-color: rgba(255, 85, 0, 0.3);
+        }
+
+        .freefire:hover .enter {
+            background: linear-gradient(135deg, var(--ff-orange), var(--ff-red));
+            color: #ffffff;
+            border-color: var(--ff-orange);
+            box-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
+        }
+
+        .arrow {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover .arrow {
+            transform: translateX(6px);
+        }
+
+        /* Card Corner Glow Effect */
+        .rov::after,
+        .freefire::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.3;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .rov::after {
+            background: #00f0ff;
+            top: -60px;
+            right: -60px;
+        }
+
+        .freefire::after {
+            background: #ff5500;
+            top: -60px;
+            right: -60px;
+        }
+
+        .game-card:hover::after {
+            opacity: 0.6;
+            transform: scale(1.2);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 14px;
+            text-align: center;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 850px) {
+            .games {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .game-card {
+                height: 400px;
+            }
+
+            .header {
+                margin-bottom: 35px;
+            }
+
+            .school-badge {
+                font-size: 13px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 30px 0;
+            }
+
+            .game-card {
+                height: 350px;
+                border-radius: 20px;
+            }
+
+            .game-content {
+                left: 22px;
+                right: 22px;
+                bottom: 22px;
+            }
+
+            .game-name {
+                font-size: 36px;
+            }
+
+            .game-description {
+                font-size: 13.5px;
+                margin-bottom: 16px;
+            }
+
+            .enter {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>

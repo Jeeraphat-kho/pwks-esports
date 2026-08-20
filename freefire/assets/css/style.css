@@ -1,0 +1,1459 @@
+/* ==========================================================================
+   FREE FIRE ESPORTS - โรงเรียนพร้าววิทยาคม
+   Theme: Dark Esports / Competitive Gaming / Cyberpunk
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CSS Variables & Theme Configuration
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --bg-primary: #040714;
+    --bg-secondary: #090e24;
+    --bg-card: rgba(14, 20, 36, 0.85);
+    --bg-card-elevated: rgba(19, 27, 48, 0.9);
+    --bg-card-hover: rgba(24, 34, 60, 0.95);
+    --bg-input: rgba(6, 11, 24, 0.8);
+    --bg-input-focus: rgba(10, 17, 36, 0.95);
+
+    /* Free Fire Core Colors */
+    --ff-orange: #ff5500;
+    --ff-orange-light: #ff7700;
+    --ff-red: #ff1844;
+    --ff-amber: #ff9800;
+    --ff-yellow: #ffb703;
+    --ff-glow: rgba(255, 85, 0, 0.45);
+    --ff-glow-subtle: rgba(255, 85, 0, 0.18);
+    --ff-glow-red: rgba(255, 24, 68, 0.4);
+    --ff-gradient: linear-gradient(135deg, #ff5500 0%, #ff1844 100%);
+    --ff-gradient-hover: linear-gradient(135deg, #ff6a1a 0%, #ff2a55 100%);
+    --ff-gradient-gold: linear-gradient(135deg, #ff9800 0%, #ff5500 100%);
+
+    /* Cyber & School Colors */
+    --cyber-blue: #60a5fa;
+    --cyber-blue-glow: rgba(96, 165, 250, 0.3);
+    --cyber-cyan: #00f0ff;
+    --cyber-purple: #b300ff;
+
+    /* Typography Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-dark: #020617;
+
+    /* Borders & Shadows */
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-card: rgba(255, 255, 255, 0.12);
+    --border-glow: rgba(255, 85, 0, 0.45);
+    --border-focus: #ff5500;
+    --shadow-card: 0 20px 45px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 30px var(--ff-glow);
+    --shadow-btn: 0 0 25px rgba(255, 85, 0, 0.55);
+
+    /* Radii */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --radius-pill: 50px;
+
+    /* Fonts */
+    --font-kanit: 'Kanit', sans-serif;
+    --font-chakra: 'Chakra Petch', sans-serif;
+    --font-orbitron: 'Orbitron', sans-serif;
+}
+
+/* ==========================================================================
+   2. Global Reset & Base Styles
+   ========================================================================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+}
+
+body {
+    font-family: var(--font-kanit);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #02050f;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 5px;
+    border: 2px solid #02050f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ff-orange);
+}
+
+::selection {
+    background: var(--ff-orange);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   3. Background Effects: Canvas Particles, Grid & Orbs
+   ========================================================================== */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.18;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+}
+
+.glow-orb-left {
+    position: fixed;
+    top: 15%;
+    left: -150px;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 85, 0, 0.15) 0%, transparent 70%);
+    filter: blur(90px);
+    z-index: 1;
+    pointer-events: none;
+    animation: floatGlow 9s ease-in-out infinite alternate;
+}
+
+.glow-orb-right {
+    position: fixed;
+    bottom: 10%;
+    right: -150px;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 24, 68, 0.15) 0%, transparent 70%);
+    filter: blur(90px);
+    z-index: 1;
+    pointer-events: none;
+    animation: floatGlow 9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatGlow {
+    0% { transform: translateY(0) scale(1); opacity: 0.5; }
+    100% { transform: translateY(50px) scale(1.15); opacity: 0.9; }
+}
+
+.main-content {
+    position: relative;
+    flex: 1 0 auto;
+}
+
+/* ==========================================================================
+   4. Navbar Styles
+   ========================================================================== */
+.custom-navbar {
+    background: rgba(4, 7, 20, 0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: all 0.3s ease;
+    padding: 14px 0;
+}
+
+.custom-navbar.scrolled {
+    background: rgba(4, 7, 20, 0.96);
+    border-bottom-color: rgba(255, 85, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 85, 0, 0.15);
+    padding: 10px 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--ff-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 20px;
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover .brand-icon {
+    transform: rotate(-8deg) scale(1.08);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-title {
+    font-family: var(--font-orbitron);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.brand-title .highlight {
+    color: var(--ff-orange);
+    text-shadow: 0 0 12px var(--ff-glow);
+}
+
+.brand-sub {
+    font-family: var(--font-chakra);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--cyber-blue);
+    text-transform: uppercase;
+}
+
+/* Nav Links */
+.navbar-nav {
+    gap: 6px;
+}
+
+.nav-link {
+    font-family: var(--font-chakra);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary) !important;
+    padding: 8px 16px !important;
+    border-radius: var(--radius-sm);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 85, 0, 0.15);
+    border: 1px solid rgba(255, 85, 0, 0.4);
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.25);
+}
+
+.nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: var(--ff-orange);
+    box-shadow: 0 0 8px var(--ff-orange);
+}
+
+/* Back to Main Portal Link */
+.nav-portal-btn {
+    font-family: var(--font-chakra);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cyber-blue);
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.nav-portal-btn:hover {
+    background: rgba(96, 165, 250, 0.2);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.4);
+}
+
+.nav-admin-btn {
+    font-family: var(--font-chakra);
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 7px 18px !important;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.nav-admin-btn:hover {
+    background: var(--ff-gradient);
+    border-color: var(--ff-orange);
+    box-shadow: 0 0 20px var(--ff-glow);
+    transform: translateY(-1px);
+}
+
+.navbar-toggler {
+    border: 1px solid rgba(255, 85, 0, 0.4);
+    color: var(--ff-orange);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 12px var(--ff-glow);
+}
+
+/* ==========================================================================
+   5. School Badge & Typography
+   ========================================================================== */
+.school-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cyber-blue);
+    font-size: 14px;
+    letter-spacing: 2.5px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    font-family: var(--font-chakra);
+    font-weight: 600;
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 6px 18px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+}
+
+.school-badge.fire-badge {
+    color: var(--ff-amber);
+    background: rgba(255, 152, 0, 0.12);
+    border-color: rgba(255, 152, 0, 0.35);
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
+}
+
+.section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: var(--font-chakra);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    color: var(--ff-amber);
+    border: 1px solid rgba(255, 152, 0, 0.35);
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.2);
+    margin-bottom: 16px;
+}
+
+.hero-title {
+    font-size: clamp(34px, 5.5vw, 64px);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-kanit);
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #ff9800 25%,
+        #ff5500 50%,
+        #ff1844 75%,
+        #ffffff 100%
+    );
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShine 5s linear infinite;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.9));
+}
+
+@keyframes textShine {
+    to { background-position: 250% center; }
+}
+
+.page-title {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 17px;
+    font-weight: 300;
+    /* max-width: 680px; */
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   6. Buttons (Esports Style)
+   ========================================================================== */
+.btn-esports {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 28px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-chakra);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.btn-esports-primary {
+    background: var(--ff-gradient);
+    color: #ffffff !important;
+    border: 1px solid var(--ff-orange);
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
+}
+
+.btn-esports-primary:hover {
+    background: var(--ff-gradient-hover);
+    box-shadow: 0 0 35px rgba(255, 85, 0, 0.85);
+    transform: translateY(-3px) scale(1.02);
+    color: #ffffff !important;
+}
+
+.btn-esports-secondary {
+    background: rgba(255, 255, 255, 0.07);
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.btn-esports-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.btn-esports-outline {
+    background: rgba(255, 85, 0, 0.08);
+    color: #ff9800 !important;
+    border: 1px solid rgba(255, 85, 0, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.btn-esports-outline:hover {
+    background: rgba(255, 85, 0, 0.2);
+    border-color: var(--ff-orange);
+    color: #ffffff !important;
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.btn-esports .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+.btn-esports:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+/* ==========================================================================
+   7. Cards & Glassmorphism Components
+   ========================================================================== */
+.esports-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-card);
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.esports-card:hover {
+    border-color: rgba(255, 85, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-card), 0 0 30px var(--ff-glow-subtle);
+}
+
+/* Card Holographic Shimmer Effect */
+.esports-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.08),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.8s ease;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.esports-card:hover::before {
+    left: 140%;
+}
+
+/* Card Glow Corner Accent */
+.esports-card::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--ff-orange);
+    top: -50px;
+    right: -50px;
+    filter: blur(60px);
+    opacity: 0.15;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.esports-card:hover::after {
+    opacity: 0.35;
+    transform: scale(1.2);
+}
+
+/* Feature Cards on Home */
+.feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(255, 85, 0, 0.12);
+    border: 1px solid rgba(255, 85, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: var(--ff-orange);
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255, 85, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.esports-card:hover .feature-icon-wrapper {
+    background: var(--ff-gradient);
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
+    transform: scale(1.08) rotate(3deg);
+}
+
+.feature-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.feature-desc {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+/* Pulse Badge */
+.pulse-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-family: var(--font-chakra);
+    font-weight: 700;
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 10px #4ade80;
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+/* ==========================================================================
+   8. Form Styles (Multi-Section Registration)
+   ========================================================================== */
+.form-section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    transition: border-color 0.3s ease;
+}
+
+.form-section-card:focus-within {
+    border-color: rgba(255, 85, 0, 0.35);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-number {
+    font-family: var(--font-orbitron);
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--ff-orange);
+    background: rgba(255, 85, 0, 0.12);
+    border: 1px solid rgba(255, 85, 0, 0.35);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.section-header-text h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.section-header-text p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 4px 0 0 0;
+    font-weight: 300;
+}
+
+.player-badge-main {
+    font-family: var(--font-chakra);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 85, 0, 0.15);
+    color: var(--ff-amber);
+    border: 1px solid rgba(255, 85, 0, 0.4);
+    letter-spacing: 0.5px;
+}
+
+.player-badge-sub {
+    font-family: var(--font-chakra);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    letter-spacing: 0.5px;
+}
+
+/* Custom Level Select Radio Cards */
+.level-select-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.level-card-label {
+    cursor: pointer;
+    margin: 0;
+}
+
+.level-card-label input[type="radio"] {
+    display: none;
+}
+
+.level-card-box {
+    background: rgba(8, 13, 27, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.level-card-box .level-icon {
+    font-size: 32px;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.level-card-box .level-title {
+    font-family: var(--font-kanit);
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.level-card-box .level-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.level-card-label input[type="radio"]:checked + .level-card-box {
+    border-color: var(--ff-orange);
+    background: rgba(255, 85, 0, 0.12);
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+.level-card-label input[type="radio"]:checked + .level-card-box .level-icon {
+    color: var(--ff-orange);
+    transform: scale(1.15);
+}
+
+.level-card-label input[type="radio"]:checked + .level-card-box .level-title {
+    color: #ffffff;
+}
+
+/* Form Controls & Inputs */
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e2e8f0;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-label .req-star {
+    color: var(--ff-red);
+    font-weight: 700;
+}
+
+.form-control,
+.form-select {
+    background-color: var(--bg-input);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-md);
+    color: #ffffff;
+    font-family: var(--font-kanit);
+    font-size: 15px;
+    padding: 12px 16px;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(8px);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--bg-input-focus);
+    border-color: var(--ff-orange);
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.25), 0 0 15px rgba(255, 85, 0, 0.2);
+    outline: none;
+}
+
+.form-select:disabled{
+    background-color: red;
+}
+
+.form-control::placeholder {
+    color: #64748b;
+    font-weight: 300;
+}
+
+.form-select option {
+    background-color: #0b1124;
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* Custom File Upload & Logo Preview */
+.logo-upload-dropzone {
+    border: 2px dashed rgba(255, 85, 0, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 30px 20px;
+    text-align: center;
+    background: rgba(8, 13, 27, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.logo-upload-dropzone:hover,
+.logo-upload-dropzone.dragover {
+    border-color: var(--ff-orange);
+    background: rgba(255, 85, 0, 0.08);
+    box-shadow: 0 0 20px rgba(255, 85, 0, 0.2);
+}
+
+.logo-preview-box {
+    display: none;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    background: rgba(8, 13, 27, 0.85);
+    border: 1px solid rgba(255, 85, 0, 0.3);
+    border-radius: var(--radius-lg);
+    margin-top: 16px;
+}
+
+.logo-preview-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid var(--ff-orange);
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.4);
+}
+
+.logo-preview-info {
+    flex: 1;
+}
+
+.logo-preview-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    word-break: break-all;
+}
+
+.logo-preview-size {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Summary Card in Section 08 */
+.summary-card {
+    background: rgba(6, 11, 24, 0.9);
+    border: 1px solid rgba(255, 85, 0, 0.35);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.15);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 14.5px;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.summary-value {
+    color: #ffffff;
+    font-weight: 600;
+    text-align: right;
+}
+
+.player-summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+}
+
+.player-summary-list li {
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Custom Checkbox */
+.custom-checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.custom-checkbox-wrapper input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--ff-orange);
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+.checkbox-label {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Form Feedback & Errors */
+.form-feedback-error {
+    color: #fb7185;
+    font-size: 12.5px;
+    margin-top: 5px;
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+
+.is-invalid + .form-feedback-error {
+    display: flex;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #fb7185 !important;
+    background-image: none !important;
+    box-shadow: 0 0 0 2px rgba(251, 113, 133, 0.25) !important;
+}
+
+/* ==========================================================================
+   9. Rules Page Accordion
+   ========================================================================== */
+.rules-accordion .accordion-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-lg) !important;
+    margin-bottom: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.rules-accordion .accordion-item:hover {
+    border-color: rgba(255, 85, 0, 0.35);
+}
+
+.rules-accordion .accordion-button {
+    background: transparent;
+    color: #ffffff;
+    font-family: var(--font-kanit);
+    font-size: 17px;
+    font-weight: 700;
+    padding: 20px 24px;
+    box-shadow: none !important;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.rules-accordion .accordion-button:not(.collapsed) {
+    background: rgba(255, 85, 0, 0.08);
+    color: var(--ff-amber);
+    border-bottom: 1px solid rgba(255, 85, 0, 0.2);
+}
+
+.rules-accordion .accordion-button::after {
+    filter: invert(1) brightness(2);
+    transition: transform 0.3s ease;
+}
+
+.rules-accordion .accordion-button:not(.collapsed)::after {
+    filter: invert(53%) sepia(85%) saturate(3000%) hue-rotate(360deg) brightness(103%) contrast(106%);
+}
+
+.rules-num-badge {
+    font-family: var(--font-orbitron);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ff-orange);
+    background: rgba(255, 85, 0, 0.15);
+    border: 1px solid rgba(255, 85, 0, 0.35);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.rules-accordion .accordion-body {
+    background: rgba(6, 11, 24, 0.6);
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    padding: 24px;
+}
+
+.rules-accordion .accordion-body ul,
+.rules-accordion .accordion-body ol {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.rules-accordion .accordion-body li {
+    margin-bottom: 8px;
+}
+
+.rules-accordion .accordion-body li:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   10. Bracket Page (Embed Container & Mock Brackets)
+   ========================================================================== */
+.bracket-embed-container {
+    background: rgba(14, 20, 36, 0.9);
+    border: 2px solid rgba(255, 85, 0, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    min-height: 520px;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--ff-glow-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bracket-placeholder-box {
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-lg);
+    padding: 50px 30px;
+    text-align: center;
+    width: 100%;
+    background: rgba(6, 11, 24, 0.6);
+}
+
+.bracket-nav-pills .nav-link {
+    font-family: var(--font-chakra);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 24px !important;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary) !important;
+}
+
+.bracket-nav-pills .nav-link.active {
+    background: var(--ff-gradient);
+    border-color: var(--ff-orange);
+    color: #ffffff !important;
+    box-shadow: 0 0 25px rgba(255, 85, 0, 0.5);
+}
+
+/* Mock Match Card */
+.match-card {
+    background: rgba(8, 13, 27, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: all 0.25s ease;
+}
+
+.match-card:hover {
+    border-color: var(--ff-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 85, 0, 0.25);
+}
+
+.match-team {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14.5px;
+    font-weight: 600;
+}
+
+.match-team.winner {
+    color: var(--ff-amber);
+}
+
+.match-score {
+    font-family: var(--font-orbitron);
+    font-weight: 800;
+}
+
+/* ==========================================================================
+   11. Admin Login Page
+   ========================================================================== */
+.admin-login-wrapper {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.admin-login-card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 85, 0, 0.35);
+    border-radius: var(--radius-xl);
+    padding: 40px 35px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px var(--ff-glow-subtle);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-login-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: var(--ff-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #ffffff;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 0 25px var(--ff-glow);
+}
+
+.input-icon-group {
+    position: relative;
+}
+
+.input-icon-group i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+    transition: color 0.25s ease;
+}
+
+.input-icon-group .form-control {
+    padding-left: 46px;
+}
+
+.input-icon-group .form-control:focus + i,
+.input-icon-group:focus-within i {
+    color: var(--ff-orange);
+}
+
+/* ==========================================================================
+   12. Modals & Notifications & Lightbox
+   ========================================================================== */
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.modal {
+    z-index: 1060 !important;
+}
+
+.modal-dialog {
+    z-index: 1065 !important;
+    position: relative;
+}
+
+/* Fancybox 5 Lightbox over Bootstrap Modals */
+.fancybox__container {
+    z-index: 99999 !important;
+}
+
+.fancybox__backdrop {
+    background: rgba(2, 5, 15, 0.94) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.modal-content.esports-modal {
+    background: rgba(11, 16, 32, 0.98);
+    border: 1px solid var(--ff-orange);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(25px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 45px var(--ff-glow);
+    color: #ffffff;
+    pointer-events: auto !important;
+}
+
+.modal-header.esports-modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 24px;
+}
+
+.modal-footer.esports-modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 18px 24px;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.success-icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.15);
+    border: 2px solid #22c55e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #22c55e;
+    font-size: 40px;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.35);
+    animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   13. Footer Styles
+   ========================================================================== */
+.custom-footer {
+    background: rgba(2, 4, 12, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 50px 0 30px 0;
+    margin-top: 80px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-brand-title {
+    font-family: var(--font-orbitron);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.footer-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 10px;
+}
+
+.footer-heading {
+    font-family: var(--font-chakra);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-heading::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    background: var(--ff-orange);
+    box-shadow: 0 0 6px var(--ff-orange);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14.5px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links a:hover {
+    color: var(--ff-orange);
+    transform: translateX(4px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 25px;
+    margin-top: 40px;
+    color: #64748b;
+    font-size: 13.5px;
+    font-family: var(--font-chakra);
+    text-align: center;
+}
+
+/* ==========================================================================
+   14. Responsive Queries
+   ========================================================================== */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: rgba(8, 13, 27, 0.98);
+        border: 1px solid rgba(255, 85, 0, 0.25);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        margin-top: 14px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    }
+
+    .level-select-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .esports-card {
+        padding: 24px 20px;
+        border-radius: var(--radius-lg);
+    }
+
+    .form-section-card {
+        padding: 24px 18px;
+        border-radius: var(--radius-lg);
+    }
+
+    .section-header {
+        gap: 12px;
+    }
+
+    .section-number {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .section-header-text h3 {
+        font-size: 18px;
+    }
+
+    .btn-esports {
+        padding: 11px 22px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .page-title {
+        font-size: 26px;
+    }
+
+    .school-badge {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        padding: 5px 14px;
+    }
+
+    .form-section-card {
+        padding: 20px 15px;
+    }
+
+    .admin-login-card {
+        padding: 30px 20px;
+    }
+}
